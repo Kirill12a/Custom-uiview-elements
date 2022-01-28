@@ -19,49 +19,50 @@ class ViewController: UIViewController {
   }
 }
 
+
 class CGView:UIView {
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    // Установите цвет фона для прозрачного, в противном случае это черный фон
-    self.backgroundColor = UIColor.clear
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  override func draw(_ rect: CGRect) {
-    super.draw(rect)
-
-    // Получить контекст рисования
-    guard let context = UIGraphicsGetCurrentContext() else {
-      return
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        // Установите цвет фона для прозрачного, в противном случае это черный фон
+        self.backgroundColor = UIColor.clear
     }
 
-    // создать прямоугольник, все из которых
-    let drawingRect = self.bounds.insetBy(dx: 3, dy: 3)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-    // Создать и установить путь
-    let path = CGMutablePath()
-    path.move(to: CGPoint(x:drawingRect.minX, y:drawingRect.minY))
-    path.addLine(to:CGPoint(x:drawingRect.maxX, y:drawingRect.minY))
-    path.addLine(to:CGPoint(x:drawingRect.maxX, y:drawingRect.maxY))
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
 
-    // Установите тень
-    context.setShadow(offset: CGSize(width:3, height:3), blur: 0.6,
-                      color: UIColor.lightGray.cgColor)
-    // добавить путь к графическому контексту
-    context.addPath(path)
-    //установите стиль конечной точки
-    context.setLineCap(.round)
-    // Установите тип соединения (округлый)
-    context.setLineJoin(.round)
-    // установить цвет кисти
-    context.setStrokeColor(UIColor.red.cgColor)
-    // Установите ширину Touch Pen
-    context.setLineWidth(6)
-    // нарисовать путь
-    context.strokePath()
-  }
+        // Получить контекст рисования
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return
+        }
+
+        // создать прямоугольник, все из которых
+        let drawingRect = self.bounds.insetBy(dx: 3, dy: 3)
+
+        // Создать и установить путь
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x:drawingRect.minX, y:drawingRect.minY))
+        path.addLine(to:CGPoint(x:drawingRect.maxX, y:drawingRect.minY))
+        path.addLine(to:CGPoint(x:drawingRect.maxX, y:drawingRect.maxY))
+
+        // добавить путь к графическому контексту
+        context.addPath(path)
+
+        // установить цвет кисти
+        context.setStrokeColor(UIColor.orange.cgColor)
+        // Установите ширину Touch Pen
+        context.setLineWidth(6)
+
+        // Длина грязной линии и интервал
+        let lengths: [CGFloat] = [16]
+        // установить пунктирную линию стиль
+        context.setLineDash(phase: 0, lengths: lengths)
+
+        // нарисуй путь
+        context.strokePath()
+    }
 }
