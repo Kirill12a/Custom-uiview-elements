@@ -45,9 +45,14 @@ class CGView:UIView {
 
         // Создать и установить путь
         let path = CGMutablePath()
-        path.move(to: CGPoint(x:drawingRect.minX, y:drawingRect.minY))
-        path.addLine(to:CGPoint(x:drawingRect.maxX, y:drawingRect.minY))
-        path.addLine(to:CGPoint(x:drawingRect.maxX, y:drawingRect.maxY))
+
+        // Радиус дуги
+        let radius = min(drawingRect.width, drawingRect.height)/2
+        // Круговая дуга
+        let center = CGPoint(x:drawingRect.midX, y:drawingRect.midY)
+        // нарисуйте дугу
+        path.addArc(center: center, radius: radius, startAngle: 0,
+                    endAngle: CGFloat.pi * 1.5, clockwise: false)
 
         // добавить путь к графическому контексту
         context.addPath(path)
@@ -57,12 +62,8 @@ class CGView:UIView {
         // Установите ширину Touch Pen
         context.setLineWidth(6)
 
-        // Длина грязной линии и интервал
-        let lengths: [CGFloat] = [16]
-        // установить пунктирную линию стиль
-        context.setLineDash(phase: 0, lengths: lengths)
-
         // нарисуй путь
         context.strokePath()
     }
 }
+
